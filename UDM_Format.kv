@@ -1,0 +1,147 @@
+<StartScreen>:
+    name: "startScreen"
+    MDFloatLayout:
+        MDTopAppBar:
+            title: "User Database Manager"
+            pos_hint: {"top": 1}
+            elevation: 10
+
+        MDRaisedButton:
+            id: addUserBtn
+            text: "Add User"
+            pos_hint: {"center_x":.35,"center_y":.5}
+            on_release: app.switchScreen("addUserScreen")
+
+        MDRaisedButton:
+            id: removeUserBtn
+            text: "Remove User"
+            pos_hint: {"center_x":.65,"center_y":.5}
+            on_release: app.switchScreen("removeUserScreen")
+
+<AddUserScreen>:
+    MDFloatLayout:
+        MDTopAppBar:
+            title: "Add Users"
+            left_action_items: [["arrow-left", lambda y: app.backButton()]]
+            pos_hint: {"top": 1}
+            elevation: 10
+        
+        MDTextField:
+            id: newUser
+            mode: "rectangle"
+            hint_text: "New User Name"
+            size_hint: .7,None
+            pos_hint: {"center_x":.4,"center_y":.8}
+
+        MDTextField:
+            id: newUNum
+            mode: "rectangle"
+            hint_text: "New U-Num"
+            size_hint: .3,None
+            pos_hint: {"center_x":.2,"center_y":.65}
+ 
+        MDTextField:
+            id: newPin
+            mode: "rectangle"
+            hint_text: "User Pin"
+            size_hint: .3,None
+            pos_hint: {"center_x":.6,"center_y":.65}
+
+############## Basic User ##############
+        MDRaisedButton:
+            id: basicUserBtn
+            text: "Basic User"
+            size_hint: None,None
+            pos_hint: {"center_x":.2,"center_y":.5}
+            on_release: root.toggleBasicUserIcon()
+        MDIconButton:
+            id: basicUserIcon
+            icon: "check-bold"
+            opacity: 0
+            size_hint: None,None
+            pos_hint: {"center_x":.3,"center_y":.5}
+
+############## Rework User ##############
+        MDRaisedButton:
+            id: basicUserBtn
+            text: "Rework User"
+            size_hint: None,None
+            pos_hint: {"center_x":.2,"center_y":.4}
+            on_release: root.toggleReworkUserIcon()
+        MDIconButton:
+            id: ReworkUserIcon
+            icon: "check-bold"
+            opacity: 0
+            size_hint: None,None
+            pos_hint: {"center_x":.3,"center_y":.4}
+
+############## BGA User ##############
+        MDRaisedButton:
+            id: BGAUserBtn
+            text: "BGA User"
+            size_hint: None,None
+            pos_hint: {"center_x":.2,"center_y":.3}
+            on_release: root.toggleBGAUserIcon()
+        MDIconButton:
+            id: BGAUserIcon
+            icon: "check-bold"
+            opacity: 0
+            size_hint: None,None
+            pos_hint: {"center_x":.3,"center_y":.3}
+
+############## Admin User ##############
+        MDRaisedButton:
+            id: AdminUserBtn
+            text: "Admin User"
+            size_hint: None,None
+            pos_hint: {"center_x":.2,"center_y":.2}
+            on_release: root.toggleAdminUserIcon()
+        MDIconButton:
+            id: AdminUserIcon
+            icon: "check-bold"
+            opacity: 0
+            size_hint: None,None
+            pos_hint: {"center_x":.3,"center_y":.2}
+
+############## QA User ##############
+        MDRaisedButton:
+            id: QAUserBtn
+            text: "QA User"
+            size_hint: None,None
+            pos_hint: {"center_x":.2,"center_y":.1}
+            on_release: root.toggleQAUserIcon()
+        MDIconButton:
+            id: QAUserIcon
+            icon: "check-bold"
+            opacity: 0
+            size_hint: None,None
+            pos_hint: {"center_x":.3,"center_y":.1}
+
+
+        MDRaisedButton:
+            id: submitBtn
+            text: "Submit"
+            pos_hint: {"center_x":.9,"center_y":.1}
+            on_release: root.submitSelections()
+
+
+<RemoveUserScreen>:
+    MDFloatLayout:
+        MDTopAppBar:
+            title: "Remove Users"
+            left_action_items: [["arrow-left", lambda y: app.backButton()]]
+            pos_hint: {"top": 1}
+            elevation: 10
+
+        MDTextField:
+            id: targetUser
+            mode: "rectangle"
+            hint_text: "U-Num"
+            size_hint: .7,None
+            pos_hint: {"center_x":.5,"center_y":.65}
+
+        MDRaisedButton:
+            id: removeBtn
+            text: "Remove"
+            pos_hint: {"center_x":.5,"center_y":.2}
+            on_release: root.removeSelections()
