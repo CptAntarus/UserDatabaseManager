@@ -50,6 +50,12 @@ class AddUserScreen(Screen):
 
     def submitSelections(self):
         load_dotenv("UDM_Creds.env")
+
+        table = GlobalScreenManager.TABLE
+        col = GlobalScreenManager.COL
+
+        print("TABLE:",GlobalScreenManager.TABLE)
+        print("COL:",GlobalScreenManager.COL)
  
         driver = os.getenv('DRIVER')
         server = os.getenv('SERVER')
@@ -67,19 +73,19 @@ class AddUserScreen(Screen):
         )
         cursor = conn.cursor()
         
-        insert_query = '''
-        INSERT INTO User_Table ([U-Num], Name, Basic_Access, Rework, BGA, Admin, QA, pin)
-        VALUES (?,?,?,?,?,?,?,?)
+        insert_query = f'''
+            INSERT INTO {table} ({col}, Name, Basic_Access, Rework, BGA, Admin, QA, pin)
+            VALUES (?,?,?,?,?,?,?,?)
         '''
         data = (
-              self.ids.newUNum.text.strip(),
-              self.ids.newUser.text.strip(),
-              self.basicUserPerm,
-              self.ReworkUserPerm,
-              self.BGAUserPerm,
-              self.AdminUserPerm,
-              self.QAUserPerm,
-              self.ids.newPin.text.strip()
+                self.ids.newUNum.text.strip(),
+                self.ids.newUser.text.strip(),
+                self.basicUserPerm,
+                self.ReworkUserPerm,
+                self.BGAUserPerm,
+                self.AdminUserPerm,
+                self.QAUserPerm,
+                self.ids.newPin.text.strip()
               )
 
         try:
@@ -90,16 +96,16 @@ class AddUserScreen(Screen):
             print("Error inserting data:", e)
             conn.rollback()
         finally:
-            cursor.execute('SELECT * FROM User_Table')
+            cursor.execute(f'SELECT * FROM {table}')
             rows = cursor.fetchall()
 
             print("Added: ",data)
             # Print each row of the database
-            print("REMOTE_DB =====================================")
+            print(f"{table} =====================================")
             for row in rows:
                 print(row)
 
             conn.close()
 
             # Switch Back to Start Screen
-            MDApp.get_running_app().switchScreen('startScreen')
+            GSM().switchScreen('startScreen')

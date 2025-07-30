@@ -25,17 +25,9 @@ class UDMGui(MDApp):
         return self.sm
     
     def on_start(self):
-        self.switchScreen('startScreen')
+        GSM().switchScreen('startScreen')
 
-    def switchScreen(self, newScreen):
-        GlobalScreenManager.SCREEN_HIST.append(self.sm.current)
-        self.sm.current = newScreen
-
-    def backButton(self, *args):
-        self.sm.current = GlobalScreenManager.SCREEN_HIST.pop()
-
-    def reset(self):
-        GlobalScreenManager.SCREEN_HIST.clear()
+    
 
 if __name__ == "__main__":
     UDMGui().run()

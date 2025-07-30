@@ -16,7 +16,10 @@ class RemoveUserScreen(Screen):
 
     def removeSelections(self):
         load_dotenv("UDM_Creds.env")
- 
+
+        table = GlobalScreenManager.TABLE
+        col = GlobalScreenManager.COL
+
         driver = os.getenv('DRIVER')
         server = os.getenv('SERVER')
         database = os.getenv('DATABASE')
@@ -34,11 +37,8 @@ class RemoveUserScreen(Screen):
 
         cursor = conn.cursor()
 
-    # User_Table
-    # Kiosk_Table
-    #[U-Num]
         try:
-            cursor.execute("DELETE FROM Kiosk_Table WHERE u_num = ?", 
+            cursor.execute(f"DELETE FROM {table} WHERE {col} = ?", 
                            (self.ids.targetUser.text.strip(),))
             conn.commit()
             print("Row deleted successfully.")
@@ -46,36 +46,16 @@ class RemoveUserScreen(Screen):
             print("Error deleting row:", e)
             conn.rollback()
         finally:
-            cursor.execute('SELECT * FROM Kiosk_Table')
+            cursor.execute(f'SELECT * FROM {table}')
             rows = cursor.fetchall()
 
             # Print each row of the database
-            print("REMOTE_DB =====================================")
+            print(f"{table} =====================================")
             for row in rows:
                 print(row)
     
-    # Rework_Table
-        try:
-            cursor.execute("DELETE FROM Rework_Table WHERE [U-Num] = ?", 
-                           (self.ids.targetUser.text.strip(),))
-            conn.commit()
-            print("Row deleted successfully.")
-        except Exception as e:
-            print("Error deleting row:", e)
-            conn.rollback()
-        finally:
-            cursor.execute('SELECT * FROM Rework_Table')
-            rows = cursor.fetchall()
-
-            # Print each row of the database
-            print("REMOTE_DB =====================================")
-            for row in rows:
-                print(row)
-
-            conn.close()
-
             # Switch Back to Start Screen
-            MDApp.get_running_app().switchScreen('startScreen')
+            GSM().switchScreen('startScreen')
 
 
 

@@ -8,21 +8,21 @@
 
         MDRaisedButton:
             id: addUserBtn
-            text: "Add User"
+            text: "Add User To:"
             pos_hint: {"center_x":.35,"center_y":.5}
-            on_release: app.switchScreen("addUserScreen")
+            on_release: root.openMenuAdd(self)
 
         MDRaisedButton:
             id: removeUserBtn
-            text: "Remove User"
+            text: "Remove User From:"
             pos_hint: {"center_x":.65,"center_y":.5}
-            on_release: app.switchScreen("removeUserScreen")
+            on_release: root.openMenuRemove(self)
 
 <AddUserScreen>:
     MDFloatLayout:
         MDTopAppBar:
             title: "Add Users"
-            left_action_items: [["arrow-left", lambda y: app.backButton()]]
+            left_action_items: [["arrow-left", lambda y: app.root.backButton()]]
             pos_hint: {"top": 1}
             elevation: 10
         
@@ -129,7 +129,7 @@
     MDFloatLayout:
         MDTopAppBar:
             title: "Remove Users"
-            left_action_items: [["arrow-left", lambda y: app.backButton()]]
+            left_action_items: [["arrow-left", lambda y: app.root.backButton()]]
             pos_hint: {"top": 1}
             elevation: 10
 
