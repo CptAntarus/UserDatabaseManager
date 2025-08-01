@@ -18,4 +18,10 @@ class TimeOut(Screen):
             self.countDown -= 1
         else:
             self.ids.CountDown.text = "00:00"
+            self.countdown_event.cancel()
             GSM().switchScreen("lockScreen")
+
+    def on_leave(self):
+        if hasattr(self, 'countdown_event') and self.countdown_event:
+            self.countdown_event.cancel()
+            self.countdown_event = None
