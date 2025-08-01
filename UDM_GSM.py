@@ -18,5 +18,6 @@ class GlobalScreenManager(ScreenManager):
         GlobalScreenManager.SCREEN_HIST.clear()
         GlobalScreenManager.TABLE = ""
 
+
 def GSM():
     return MDApp.get_running_app().root

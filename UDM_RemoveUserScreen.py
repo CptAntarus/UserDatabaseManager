@@ -3,7 +3,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
 from dotenv import load_dotenv
 import os
-
 import pyodbc
 
 from UDM_GSM import GlobalScreenManager, GSM
@@ -12,6 +11,7 @@ from UDM_GSM import GlobalScreenManager, GSM
 class RemoveUserScreen(Screen):
     def on_enter(self):
         self.ids.targetUser.text = ""
+        self.ids.removeUserTopBar.title = GlobalScreenManager.TABLE
 
 
     def removeSelections(self):
@@ -56,7 +56,3 @@ class RemoveUserScreen(Screen):
     
             # Switch Back to Start Screen
             GSM().switchScreen('startScreen')
-
-
-
- 

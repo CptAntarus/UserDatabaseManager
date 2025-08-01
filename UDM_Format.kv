@@ -1,31 +1,68 @@
+<LockScreen>:
+    MDFloatLayout:
+        MDGridLayout:
+            id: LockScreenGrid
+            cols: 10
+            spacing: dp(10)
+            padding: dp(10)
+            size_hint: None, None
+            pos_hint: {"center_x":.5,"center_y":.5}
+            width: self.minimum_width
+            height: self.minimum_height
+            adaptive_size: True
+
+
+<TimeOut>:
+    MDFloatLayout:
+        MDLabel:
+            id: CountDown
+            text: "00:10"
+            font_style: "H4"
+            size_hint: None, None
+            size: dp(100), dp(40)
+            pos_hint: {"center_x":.5,"center_y":.5}
+
+
 <StartScreen>:
     name: "startScreen"
     MDFloatLayout:
         MDTopAppBar:
             title: "User Database Manager"
+            left_action_items: [["lock-outline", lambda y: app.root.backButton(y)]]
             pos_hint: {"top": 1}
             elevation: 10
 
-        MDRaisedButton:
+        MDIconButton:
             id: addUserBtn
-            text: "Add User To:"
-            pos_hint: {"center_x":.35,"center_y":.5}
+            icon: "one-up" # account-multiple-outline
+            icon_size: "48dp"
+            pos_hint: {"center_x":.25,"center_y":.5}
             on_release: root.openMenuAdd(self)
 
-        MDRaisedButton:
+        MDIconButton:
+            id: showDataBtn
+            icon: "message-bulleted"
+            icon_size: "48dp"
+            pos_hint: {"center_x":.5,"center_y":.5}
+            on_release: root.openMenuShow(self)
+
+        MDIconButton:
             id: removeUserBtn
-            text: "Remove User From:"
-            pos_hint: {"center_x":.65,"center_y":.5}
+            icon: "death-star-variant"
+            icon_size: "48dp"
+            pos_hint: {"center_x":.75,"center_y":.5}
             on_release: root.openMenuRemove(self)
+
 
 <AddUserScreen>:
     MDFloatLayout:
         MDTopAppBar:
-            title: "Add Users"
+            id: addUserTopBar
+            title: ""
             left_action_items: [["arrow-left", lambda y: app.root.backButton()]]
             pos_hint: {"top": 1}
             elevation: 10
-        
+
         MDTextField:
             id: newUser
             mode: "rectangle"
@@ -39,7 +76,7 @@
             hint_text: "New U-Num"
             size_hint: .3,None
             pos_hint: {"center_x":.2,"center_y":.65}
- 
+
         MDTextField:
             id: newPin
             mode: "rectangle"
@@ -117,7 +154,6 @@
             size_hint: None,None
             pos_hint: {"center_x":.3,"center_y":.1}
 
-
         MDRaisedButton:
             id: submitBtn
             text: "Submit"
@@ -128,7 +164,8 @@
 <RemoveUserScreen>:
     MDFloatLayout:
         MDTopAppBar:
-            title: "Remove Users"
+            id: removeUserTopBar
+            title: ""
             left_action_items: [["arrow-left", lambda y: app.root.backButton()]]
             pos_hint: {"top": 1}
             elevation: 10

@@ -10,6 +10,8 @@ from UDM_GSM import GlobalScreenManager, GSM
 from UDM_StartScreen import StartScreen
 from UDM_AddUserScreen import AddUserScreen
 from UDM_RemoveUserScreen import RemoveUserScreen
+from UDM_LockScreen import LockScreen
+from UDM_TimeOut import TimeOut
 
 
 class UDMGui(MDApp):
@@ -18,6 +20,8 @@ class UDMGui(MDApp):
         self.sm.add_widget(StartScreen(name='startScreen'))
         self.sm.add_widget(AddUserScreen(name='addUserScreen'))
         self.sm.add_widget(RemoveUserScreen(name='removeUserScreen'))
+        self.sm.add_widget(LockScreen(name="lockScreen"))
+        self.sm.add_widget(TimeOut(name="timeOut"))
 
         self.sm.transition = NoTransition()
         self.theme_cls.theme_style = 'Dark'
@@ -25,72 +29,9 @@ class UDMGui(MDApp):
         return self.sm
     
     def on_start(self):
-        GSM().switchScreen('startScreen')
+        GSM().switchScreen('lockScreen')
 
     
 
 if __name__ == "__main__":
     UDMGui().run()
-
-# def read_from_remote_db():
-#     # Connect to the remote MySQL database
-#     conn = pyodbc.connect(
-#         driver='ODBC Driver 17 for SQL Server',
-#         host='USW-SQL30003.rootforest.com',
-#         user='OvenBakedUsr',
-#         password='aztmvcjfrizkcpdcehky',
-#         database='Oven_Bake_Log'
-#     )
-#     cursor = conn.cursor()
- 
-
-#     ##############################################
-
-#     try:
-#         cursor.execute("DELETE FROM User_Table WHERE [U-Num] = ?", ('U312110',))
-#         conn.commit()
-#         print("Row deleted successfully.")
-#     except Exception as e:
-#         print("Error deleting row:", e)
-#         conn.rollback()
-#     finally:
-#         pass
-#         # conn.close()
-
-#     ##############################################
-
-#     # insert_query = '''
-#     # INSERT INTO User_Table ([U-Num], Name, Basic_Access, Rework, BGA, Admin)
-#     # VALUES (?,?,?,?,?,?)
-#     # '''
-#     # data = ('U', 'Benjamin Barger', '1','1','1','1')
-
-#     # try:
-#     #     cursor.execute(insert_query, data)
-#     #     conn.commit()
-#     #     print("Data inserted successfully.")
-#     # except Exception as e:
-#     #     print("Error inserting data:", e)
-#     #     conn.rollback()
-#     # finally:
-#     #     conn.close()
-
-#     ###############################################
-
-#     cursor.execute('SELECT * FROM User_Table')
-#     rows = cursor.fetchall()
-
-#     # Print each row
-#     print("REMOTE_DB =====================================")
-#     for row in rows:
-#         print(row)
-
-#     # # Close the connection
-#     conn.close()
-
-
-# print("Start...")
-
-# read_from_remote_db()
-
-# print("Done!")

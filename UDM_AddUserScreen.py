@@ -1,17 +1,11 @@
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
-from kivymd.uix.selectioncontrol import MDCheckbox
-from kivymd.uix.list import IRightBodyTouch
 from dotenv import load_dotenv
 import os
-
-
 import pyodbc
 
 from UDM_GSM import GlobalScreenManager, GSM
 
-class RightCheckbox(IRightBodyTouch, MDCheckbox):
-    pass
 
 class AddUserScreen(Screen):
     def on_enter(self):
@@ -30,6 +24,8 @@ class AddUserScreen(Screen):
         self.ids.newUNum.text = ""
         self.ids.newUser.text = ""
         self.ids.newPin.text = ""
+
+        self.ids.addUserTopBar.title = GlobalScreenManager.TABLE
 
 
     def toggleBasicUserIcon(self):
