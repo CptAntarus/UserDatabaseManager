@@ -8,10 +8,6 @@ from UDM_GSM import GlobalScreenManager, GSM
 
 
 class StartScreen(Screen):
-
-    def on_enter(self):
-        print("Start Screen")
-
 #################################################################################
 #        - ADD
 #################################################################################

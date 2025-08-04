@@ -14,6 +14,10 @@ class GlobalScreenManager(ScreenManager):
     def backButton(self, *args):
         self.current = GlobalScreenManager.SCREEN_HIST.pop()
 
+    def lockOut(self):
+        self.reset()
+        self.switchScreen("lockScreen")
+
     def reset(self):
         GlobalScreenManager.SCREEN_HIST.clear()
         GlobalScreenManager.TABLE = ""
