@@ -79,7 +79,7 @@ class StartScreen(Screen):
 #        - SHOW
 #################################################################################
     def openMenuShow(self, caller):
-        options = ["User Database", "Rework Table", "Kiosk Table", "History Table"]
+        options = ["User Database", "Rework Table", "Kiosk Table", "History Table", "Oven Table"]
 
         menu_items = [ {"text": i,"on_release": lambda x=i: self.selectOptionShow(x)}
             for i in options ]
@@ -100,6 +100,8 @@ class StartScreen(Screen):
             table = "Kiosk_Table"
         elif text == 'History Table':
             table = "History_Table"
+        elif text == 'Oven Table':
+            table = "Oven_Log"
         else:
             print("Error with Assigning TABLE")
         self.menu.dismiss()

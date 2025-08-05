@@ -68,34 +68,55 @@ class AddUserScreen(Screen):
             'TrustServerCertificate=yes;'
         )
         cursor = conn.cursor()
-        
-        insert_query = f'''
-            INSERT INTO {table} ({col}, Name, Basic_Access, Rework, BGA, Admin, QA, pin)
-            VALUES (?,?,?,?,?,?,?,?)
-        '''
-        data = (
-                self.ids.newUNum.text.strip(),
-                self.ids.newUser.text.strip(),
-                self.basicUserPerm,
-                self.ReworkUserPerm,
-                self.BGAUserPerm,
-                self.AdminUserPerm,
-                self.QAUserPerm,
-                self.ids.newPin.text.strip()
-              )
+
+        user_id = self.ids.newUNum.text.strip()
+        userName = self.ids.newUser.text.strip()
+        basicPerm = self.basicUserPerm
+        reworkPerm = self.ReworkUserPerm
+        bgaPerm = self.BGAUserPerm
+        adminPerm = self.AdminUserPerm
+        qaPerm = self.QAUserPerm
+        pin = self.ids.newPin.text.strip()
 
         try:
-            cursor.execute(insert_query, data)
+            merge_query = f"""
+            MERGE INTO {table} AS target
+            USING (SELECT ? AS {col}) AS source
+            ON target.{col} = source.{col}
+            WHEN MATCHED THEN
+                UPDATE SET
+                    Name = ?,
+                    Basic_Access = ?,
+                    Rework = ?,
+                    BGA = ?,
+                    Admin = ?,
+                    QA = ?,
+                    PIN = ?
+            WHEN NOT MATCHED THEN
+                INSERT ({col}, Name, Basic_Access, Rework, BGA, Admin, QA, PIN)
+                VALUES (?,?,?,?,?,?,?,?);
+            """
+            
+            merge_params = (
+                  user_id,
+                  userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin,
+
+                  user_id, userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin 
+            )
+
+            cursor.execute(merge_query, merge_params)
             conn.commit()
             print("Data inserted successfully.")
+            print("Added: ",user_id)
+
         except Exception as e:
             print("Error inserting data:", e)
             conn.rollback()
+
         finally:
             cursor.execute(f'SELECT * FROM {table}')
             rows = cursor.fetchall()
 
-            print("Added: ",data)
             # Print each row of the database
             print(f"{table} =====================================")
             for row in rows:

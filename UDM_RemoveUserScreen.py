@@ -11,6 +11,7 @@ from UDM_GSM import GlobalScreenManager, GSM
 class RemoveUserScreen(Screen):
     def on_enter(self):
         self.ids.targetUser.text = ""
+        self.ids.targetUser.focus = True
         self.ids.removeUserTopBar.title = GlobalScreenManager.TABLE
 
 
