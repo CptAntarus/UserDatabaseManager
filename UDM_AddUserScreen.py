@@ -60,7 +60,7 @@ class AddUserScreen(Screen):
         svr = os.getenv('SERVER')
         db = os.getenv('DATABASE')
         uid = os.getenv('USR')
-        pwd = os.getenv('PASS'
+        pwd = os.getenv('PASS')
         
         conn = pymssql.connect(server=svr, user=uid, password=pwd, database=db,)
         cursor = conn.cursor()
