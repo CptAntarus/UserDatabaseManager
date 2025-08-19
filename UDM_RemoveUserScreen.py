@@ -3,7 +3,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
 from dotenv import load_dotenv
 import os
-import pyodbc
+#import pyodbc
+import pymssql
 
 from UDM_GSM import GlobalScreenManager, GSM
 
@@ -16,26 +17,19 @@ class RemoveUserScreen(Screen):
 
 
     def removeSelections(self):
-        load_dotenv("UDM_Creds.env")
 
         table = GlobalScreenManager.TABLE
         col = GlobalScreenManager.COL
-
-        driver = os.getenv('DRIVER')
-        server = os.getenv('SERVER')
-        database = os.getenv('DATABASE')
-        uid = os.getenv('UID')
-        pwd = os.getenv('PWD')
-
-        conn = pyodbc.connect(
-            f'DRIVER={driver};'
-            f'SERVER={server};'
-            f'DATABASE={database};'
-            f'UID={uid};'
-            f'PWD={pwd};'
-            'TrustServerCertificate=yes;'
-        )
-
+        
+        load_dotenv("UDM_Creds.env")
+        ######Used by pyodbc#######
+        #driver = os.getenv('DRIVER')
+        svr = os.getenv('SERVER')
+        db = os.getenv('DATABASE')
+        uid = os.getenv('USR')
+        pwd = os.getenv('PASS')
+       
+        conn = pymssql.connect(server=svr, user=uid, password=pwd, database=db,)
         cursor = conn.cursor()
 
         try:

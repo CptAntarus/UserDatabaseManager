@@ -2,7 +2,8 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from dotenv import load_dotenv
 import os
-import pyodbc
+#import pyodbc
+import pymssql
 
 from UDM_GSM import GlobalScreenManager, GSM
 
@@ -45,28 +46,23 @@ class AddUserScreen(Screen):
             self.ids.QAUserIcon.opacity = 1 if self.QAUserPerm else 0
 
     def submitSelections(self):
-        load_dotenv("UDM_Creds.env")
+        #load_dotenv("UDM_Creds.env")
 
         table = GlobalScreenManager.TABLE
         col = GlobalScreenManager.COL
 
         print("TABLE:",GlobalScreenManager.TABLE)
         print("COL:",GlobalScreenManager.COL)
- 
-        driver = os.getenv('DRIVER')
-        server = os.getenv('SERVER')
-        database = os.getenv('DATABASE')
-        uid = os.getenv('UID')
-        pwd = os.getenv('PWD')
-
-        conn = pyodbc.connect(
-            f'DRIVER={driver};'
-            f'SERVER={server};'
-            f'DATABASE={database};'
-            f'UID={uid};'
-            f'PWD={pwd};'
-            'TrustServerCertificate=yes;'
-        )
+        
+        load_dotenv("UDM_Creds.env")
+        ######Used by pyodbc#######
+        #driver = os.getenv('DRIVER')
+        svr = os.getenv('SERVER')
+        db = os.getenv('DATABASE')
+        uid = os.getenv('USR')
+        pwd = os.getenv('PASS'
+        
+        conn = pymssql.connect(server=svr, user=uid, password=pwd, database=db,)
         cursor = conn.cursor()
 
         user_id = self.ids.newUNum.text.strip()
@@ -77,7 +73,7 @@ class AddUserScreen(Screen):
         adminPerm = self.AdminUserPerm
         qaPerm = self.QAUserPerm
         pin = self.ids.newPin.text.strip()
-
+        #Error inserting data: (102, b"Incorrect syntax near '?'.DB-Lib error message 20018, severity 15:\nGeneral SQL Server error: Check messages from the SQL Server\n")
         try:
             merge_query = f"""
             MERGE INTO {table} AS target

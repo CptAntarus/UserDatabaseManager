@@ -1,6 +1,7 @@
 import os
-import pyodbc
+#import pyodbc
 from dotenv import load_dotenv
+import pymssql
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.menu import MDDropdownMenu
 
@@ -105,14 +106,17 @@ class StartScreen(Screen):
         else:
             print("Error with Assigning TABLE")
         self.menu.dismiss()
-
+        
         load_dotenv("UDM_Creds.env")
-        driver = os.getenv('DRIVER')
-        server = os.getenv('SERVER')
-        database = os.getenv('DATABASE')
-        uid = os.getenv('UID')
-        pwd = os.getenv('PWD')
-
+        ######Used by pyodbc#######
+        #driver = os.getenv('DRIVER')
+        svr = os.getenv('SERVER')
+        db = os.getenv('DATABASE')
+        uid = os.getenv('USR')
+        pwd = os.getenv('PASS')
+        #bug: if ised "PWD" in .env file, instead of PASS, would load current directory srting... ???
+        #print('###############################'+pwd+'####################################')
+        """
         conn = pyodbc.connect(
             f'DRIVER={driver};'
             f'SERVER={server};'
@@ -121,6 +125,8 @@ class StartScreen(Screen):
             f'PWD={pwd};'
             'TrustServerCertificate=yes;'
         )
+        """
+        conn = pymssql.connect(server=svr, user=uid, password=pwd, database=db,)
         cursor = conn.cursor()
         cursor.execute(f'SELECT * FROM {table}')
         rows = cursor.fetchall()

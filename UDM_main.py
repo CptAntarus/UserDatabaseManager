@@ -1,4 +1,4 @@
-import pyodbc
+#import pyodbc
 
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
