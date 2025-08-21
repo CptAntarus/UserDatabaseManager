@@ -77,28 +77,25 @@ class AddUserScreen(Screen):
         try:
             merge_query = f"""
             MERGE INTO {table} AS target
-            USING (SELECT ? AS {col}) AS source
+            USING (SELECT %s AS {col}) AS source
             ON target.{col} = source.{col}
             WHEN MATCHED THEN
                 UPDATE SET
-                    Name = ?,
-                    Basic_Access = ?,
-                    Rework = ?,
-                    BGA = ?,
-                    Admin = ?,
-                    QA = ?,
-                    PIN = ?
+                    Name = %s,
+                    Basic_Access = %s,
+                    Rework = %s,
+                    BGA = %s,
+                    Admin = %s,
+                    QA = %s,
+                    PIN = %s
             WHEN NOT MATCHED THEN
                 INSERT ({col}, Name, Basic_Access, Rework, BGA, Admin, QA, PIN)
-                VALUES (?,?,?,?,?,?,?,?);
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s);
             """
-            
             merge_params = (
-                  user_id,
-                  userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin,
-
-                  user_id, userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin 
-            )
+                user_id, userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin,
+                user_id, userName, basicPerm, reworkPerm, bgaPerm, adminPerm, qaPerm, pin 
+                )
 
             cursor.execute(merge_query, merge_params)
             conn.commit()

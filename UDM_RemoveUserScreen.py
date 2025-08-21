@@ -33,7 +33,7 @@ class RemoveUserScreen(Screen):
         cursor = conn.cursor()
 
         try:
-            cursor.execute(f"DELETE FROM {table} WHERE {col} = ?", 
+            cursor.execute(f"DELETE FROM {table} WHERE {col} = %s", 
                            (self.ids.targetUser.text.strip(),))
             conn.commit()
             print("Row deleted successfully.")
